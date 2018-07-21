@@ -11,4 +11,5 @@ FROM scratch
 
 COPY --from=builder /usr/bin/mtail /mtail
 
+EXPOSE 3903
 ENTRYPOINT ["/mtail", "-logtostderr"]
