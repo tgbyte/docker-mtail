@@ -5,10 +5,10 @@ RUN set -x \
     && apk add --update --no-cache --virtual build-dependencies git make \
     && git clone https://github.com/google/mtail /go/src/github.com/google/mtail \
     && make install_deps \
-    && go build -o /usr/bin/mtail
+    && CGO_ENABLED=0 GOOS=linux go build -o /usr/bin/mtail -a -ldflags '-extldflags "-static"'
 
 FROM scratch
 
 COPY --from=builder /usr/bin/mtail /mtail
 
-ENTRYPOINT ["/mtail"]
+ENTRYPOINT ["/mtail", "-logtostderr"]
